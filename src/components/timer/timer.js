@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
 import React, { useState, useEffect } from 'react';
 
 import IconPlay from './play.svg';
@@ -13,9 +11,8 @@ const Timer = ({ minutes, seconds }) => {
   let trueSec;
 
   useEffect(() => {
-    let timeout;
     if (toggle) {
-      timeout = setTimeout(() => {
+      setTimeout(() => {
         if ((min > 0 && sec > 0) || (min === 0 && sec > 0)) {
           if (trueSec === undefined) {
             setSec(sec - 1);

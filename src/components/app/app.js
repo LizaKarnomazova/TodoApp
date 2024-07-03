@@ -1,15 +1,14 @@
-/* eslint-disable no-console */
 import React, { useState, useEffect, useContext } from 'react';
 
 import './app.css';
 
-import ContextData from '../context-data/context-data';
+import ContextTask from '../context-task/context-task';
 import TaskList from '../task-list';
 import AppHeader from '../app-header';
 import AppFooter from '../app-footer';
 
 const App = () => {
-  useContext(ContextData);
+  useContext(ContextTask);
   const [data, setData] = useState([]);
   const [taskCount, setTaskCount] = useState(0);
 
@@ -75,7 +74,7 @@ const App = () => {
   const taskFns = { deleteTask, toggleProp };
 
   return (
-    <ContextData.Provider value={taskFns}>
+    <ContextTask.Provider value={taskFns}>
       <section className="todoapp">
         <AppHeader onAdded={addTask} />
         <section className="main">
@@ -83,7 +82,7 @@ const App = () => {
           <AppFooter taskCount={taskCount} clearCompleted={clearCompleted} showTasks={showTasks} />
         </section>
       </section>
-    </ContextData.Provider>
+    </ContextTask.Provider>
   );
 };
 

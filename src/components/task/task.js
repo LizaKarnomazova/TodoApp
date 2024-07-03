@@ -1,8 +1,7 @@
-/* eslint-disable no-console */
 import React, { useState, useContext } from 'react';
 
 import Timer from '../timer/timer';
-import ContextData from '../context-data/context-data';
+import ContextData from '../context-task/context-task';
 import CreatedTime from '../created-time/created-time';
 import './task.css';
 
