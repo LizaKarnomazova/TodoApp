@@ -1,90 +1,90 @@
-import React, { Component } from 'react';
+/* eslint-disable no-console */
+import React, { useState, useEffect, useContext } from 'react';
 
 import './app.css';
 
+import ContextData from '../context-data/context-data';
 import TaskList from '../task-list';
 import AppHeader from '../app-header';
 import AppFooter from '../app-footer';
 
-export default class App extends Component {
-  state = {
-    todoData: [],
-  };
+const App = () => {
+  useContext(ContextData);
+  const [data, setData] = useState([]);
+  const [taskCount, setTaskCount] = useState(0);
 
-  // eslint-disable-next-line class-methods-use-this
-  createTodoTask = (label) => ({
-    description: label,
-    created: 'created 3 minutes ago',
-    completed: false,
-    hide: false,
-    editing: false,
-    id: Math.random(),
-  });
+  function createTodoTask(label, min, sec) {
+    return {
+      description: label,
+      minutes: min,
+      seconds: sec,
+      complete: false,
+      edit: false,
+      hide: false,
+      id: Math.random(),
+    };
+  }
 
-  deleteTask = (id) => {
-    this.setState(({ todoData }) => {
-      const todoDataChange = todoData.filter((el) => el.id !== id);
-      return { todoData: todoDataChange };
-    });
-  };
+  function addTask(text, minutes, seconds) {
+    const newTask = createTodoTask(text, minutes, seconds);
+    const todoDataChange = [...data, newTask];
+    setData(todoDataChange);
+  }
 
-  addTask = (text) => {
-    const newTask = this.createTodoTask(text);
-    this.setState(({ todoData }) => {
-      const todoDataChange = [...todoData, newTask];
-      return { todoData: todoDataChange };
-    });
-  };
+  function deleteTask(id) {
+    const todoDataChange = data.filter((el) => el.id !== id);
+    setData(todoDataChange);
+  }
 
-  onToggleProp = (id, itemProp) => {
-    this.setState(({ todoData }) => {
-      const idx = todoData.findIndex((el) => el.id === id);
-      const oldItem = todoData[idx];
-      const itemKey = Object.keys(itemProp)[0];
-      const newItem = { ...oldItem, [itemKey]: !oldItem[itemKey] };
+  function toggleProp(id, itemProp) {
+    const idx = data.findIndex((el) => el.id === id);
+    const oldItem = data[idx];
+    const itemKey = Object.keys(itemProp)[0];
+    const newItem = { ...oldItem, [itemKey]: !oldItem[itemKey] };
+    const todoDataChange = [...data.slice(0, idx), newItem, ...data.slice(idx + 1)];
+    setData(todoDataChange);
+  }
 
-      const newArray = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)];
+  function clearCompleted() {
+    const todoDataChange = data.filter((el) => !el.complete);
+    setData(todoDataChange);
+  }
 
-      return { todoData: newArray };
-    });
-  };
+  function showTasks(condition) {
+    if (condition === 'all') {
+      setData(data.map((todo) => (todo.hide === true ? { ...todo, hide: !todo.hide } : { ...todo })));
+    } else if (condition === 'active') {
+      setData(
+        data.map((todo) =>
+          todo.complete === false ? { ...todo, hide: todo.complete } : { ...todo, hide: todo.complete }
+        )
+      );
+    } else if (condition === 'complete') {
+      setData(
+        data.map((todo) =>
+          todo.complete === true ? { ...todo, hide: !todo.complete } : { ...todo, hide: !todo.complete }
+        )
+      );
+    }
+  }
 
-  clearCompleted = () => {
-    this.setState(({ todoData }) => {
-      const todoDataChange = todoData.filter((el) => !el.completed);
-      return { todoData: todoDataChange };
-    });
-  };
+  useEffect(() => {
+    setTaskCount(data.length - data.filter((el) => el.completed).length);
+  }, [data]);
 
-  showTasks = (flag, showAll = false) => {
-    this.setState(({ todoData }) => {
-      todoData.forEach((el) => {
-        if (el.completed === flag && !showAll) {
-          el.hide = true;
-        } else el.hide = false;
-      });
-      return todoData;
-    });
-  };
+  const taskFns = { deleteTask, toggleProp };
 
-  render() {
-    const { todoData } = this.state;
-
-    const todoCount = todoData.length - todoData.filter((el) => el.completed).length;
-
-    return (
+  return (
+    <ContextData.Provider value={taskFns}>
       <section className="todoapp">
-        <AppHeader onAdded={this.addTask} />
+        <AppHeader onAdded={addTask} />
         <section className="main">
-          <TaskList
-            todos={todoData}
-            onDeleted={this.deleteTask}
-            onToggleProp={this.onToggleProp}
-            onAdded={this.addTask}
-          />
-          <AppFooter todo={todoCount} clearCompleted={this.clearCompleted} showTasks={this.showTasks} />
+          <TaskList data={data} />
+          <AppFooter taskCount={taskCount} clearCompleted={clearCompleted} showTasks={showTasks} />
         </section>
       </section>
-    );
-  }
-}
+    </ContextData.Provider>
+  );
+};
+
+export default App;

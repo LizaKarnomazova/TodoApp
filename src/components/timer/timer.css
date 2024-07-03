@@ -1,0 +1,14 @@
+.toggle-button{
+    display: flex;
+    align-items: center;
+    font-size:15px;
+    color: gray;
+}
+
+.toggle-icon {
+    margin-right: 7px;
+    height: 20px;
+    width: 20px;
+    outline: 2px solid #CC9A9A;
+    border-radius: 5px;
+}

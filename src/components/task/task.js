@@ -1,46 +1,46 @@
-import React, { Component } from 'react';
+/* eslint-disable no-console */
+import React, { useState, useContext } from 'react';
 
+import Timer from '../timer/timer';
+import ContextData from '../context-data/context-data';
+import CreatedTime from '../created-time/created-time';
 import './task.css';
 
-export default class Task extends Component {
-  state = {
-    label: this.props.description,
-  };
-
-  onSubmit = (e) => {
+const Task = ({ description, id, complete, edit, minutes, seconds, hide }) => {
+  const taskFns = useContext(ContextData);
+  const [label, setLabel] = useState(description);
+  function onSubmit(e) {
     e.preventDefault();
-    this.props.onToggleEditing();
-  };
-
-  onLabelChange = (e) => {
-    this.setState({
-      label: e.target.value,
-    });
-  };
-
-  render() {
-    const { created, editing, onDeleted, onToggleCompleted, onToggleEditing, completed } = this.props;
-    let classDescription = 'description';
-    if (completed) {
-      classDescription += ' completed';
-    }
-    if (editing) {
-      return (
-        <form onSubmit={this.onSubmit}>
-          <input type="text" className="edit" onChange={this.onLabelChange} defaultValue={this.state.label} />
-        </form>
-      );
-    }
-    return (
-      <div className="view">
-        <input className="toggle" type="checkbox" onClick={onToggleCompleted} />
-        <label>
-          <span className={classDescription}>{this.state.label}</span>
-          <span className="created">{created}</span>
-        </label>
-        <button className="icon icon-edit" onClick={onToggleEditing}></button>
-        <button className="icon icon-destroy" onClick={onDeleted}></button>
-      </div>
-    );
+    taskFns.toggleProp(id, { edit });
   }
-}
+
+  function onLabelChange(e) {
+    setLabel(e.target.value);
+  }
+  return (
+    <>
+      <form onSubmit={onSubmit} className={edit ? '' : 'hide'}>
+        <input type="text" className="edit" onChange={onLabelChange} defaultValue={label} />
+      </form>
+      <div className={edit || hide ? 'view hide' : 'view'}>
+        <input className="toggle" type="checkbox" onClick={() => taskFns.toggleProp(id, { complete })} />
+        <label className="description">
+          <span className={complete ? 'completed' : ''}>{label}</span>
+          <Timer minutes={minutes} seconds={seconds} />
+          <CreatedTime />
+        </label>
+        <button
+          className="icon icon-edit"
+          onClick={() => {
+            if (!complete) {
+              taskFns.toggleProp(id, { edit });
+            }
+          }}
+        ></button>
+        <button className="icon icon-destroy" onClick={() => taskFns.deleteTask(id)}></button>
+      </div>
+    </>
+  );
+};
+
+export default Task;
