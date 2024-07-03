@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState, useEffect } from 'react';
 
 import IconPlay from './play.svg';
@@ -9,7 +10,7 @@ const Timer = ({ minutes, seconds }) => {
   const [sec, setSec] = useState(Number(seconds));
   const [toggle, setToggle] = useState(true);
   let trueSec;
-
+  console.log(min === 0 && sec === 0);
   useEffect(() => {
     if (toggle) {
       setTimeout(() => {
@@ -28,6 +29,10 @@ const Timer = ({ minutes, seconds }) => {
       }, 1000);
     }
   }, [sec, toggle]);
+
+  if (min === 0 && sec === 0) {
+    return null;
+  }
 
   return (
     <div className="toggle-button">

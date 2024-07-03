@@ -1,4 +1,6 @@
 .created {
+        margin-left: 10px;
+        min-width: 140px;
         font-size: 13px;
         color: gray;
 }

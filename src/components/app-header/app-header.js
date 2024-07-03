@@ -38,7 +38,6 @@ const AppHeader = ({ onAdded }) => {
           onChange={(e) => setMinLabel(e.target.value)}
           value={minLabel}
           autoFocus
-          required
         />
         <input
           className="new-todo new-todo-form__timer"
@@ -48,7 +47,6 @@ const AppHeader = ({ onAdded }) => {
           onChange={(e) => setSecLabel(e.target.value)}
           value={secLabel}
           autoFocus
-          required
         />
         <button type="submit"></button>
       </form>

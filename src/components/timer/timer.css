@@ -1,6 +1,7 @@
 .toggle-button{
     display: flex;
     align-items: center;
+    min-width: 65px;
     font-size:15px;
     color: gray;
 }
