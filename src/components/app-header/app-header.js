@@ -35,6 +35,7 @@ const AppHeader = ({ onAdded }) => {
           placeholder="Min"
           type="number"
           min="0"
+          max="60"
           onChange={(e) => setMinLabel(e.target.value)}
           value={minLabel}
           autoFocus
@@ -44,6 +45,7 @@ const AppHeader = ({ onAdded }) => {
           placeholder="Sec"
           type="number"
           min="0"
+          max="60"
           onChange={(e) => setSecLabel(e.target.value)}
           value={secLabel}
           autoFocus
