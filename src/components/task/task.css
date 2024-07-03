@@ -111,6 +111,11 @@
   margin-bottom: -1px;
 }
 
+.description-label {
+  max-width: 170px;
+  word-break: normal ;
+}
+
 .hide {
   display: none;
 }

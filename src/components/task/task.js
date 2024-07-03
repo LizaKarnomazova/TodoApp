@@ -25,7 +25,7 @@ const Task = ({ description, id, complete, edit, minutes, seconds, hide }) => {
       <div className={edit || hide ? 'view hide' : 'view'}>
         <input className="toggle" type="checkbox" onClick={() => taskFns.toggleProp(id, { complete })} />
         <label className="description">
-          <span className={complete ? 'completed' : ''}>{label}</span>
+          <div className={complete ? 'description-label completed' : 'description-label'}>{label}</div>
           <Timer minutes={minutes} seconds={seconds} />
           <CreatedTime />
         </label>
