@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useState, useContext, useRef, useEffect } from 'react';
 
 import Timer from '../timer/timer';
@@ -12,7 +11,6 @@ const Task = ({ description, id, complete, edit, seconds, hide }) => {
   const currentLabel = useRef(description);
   const inputRef = useRef(null);
   const buttonRef = useRef(null);
-
   function onSubmit(e, key) {
     e.preventDefault();
     if (key === undefined) {
@@ -31,7 +29,6 @@ const Task = ({ description, id, complete, edit, seconds, hide }) => {
       onSubmit(e, e.keyCode);
     }
   }
-
   useEffect(() => {
     const handleClick = (e) => {
       if (!buttonRef.current.contains(e.target) && !inputRef.current.contains(e.target)) {
@@ -49,7 +46,14 @@ const Task = ({ description, id, complete, edit, seconds, hide }) => {
   return (
     <>
       <form onSubmit={onSubmit} onKeyDown={onKeyDown} className={edit ? '' : 'hide'}>
-        <input ref={inputRef} type="text" className="edit" onChange={onLabelChange} value={label} autoFocus />
+        <input
+          ref={inputRef}
+          type="text"
+          className="edit"
+          onChange={onLabelChange}
+          value={label}
+          autoFocus={edit}
+        />
       </form>
       <div className={edit || hide ? 'view hide' : 'view'}>
         <input className="toggle" type="checkbox" onClick={() => taskFns.toggleProp(id, { complete })} />
