@@ -11,7 +11,8 @@ const AppHeader = ({ onAdded }) => {
     e.preventDefault();
     const submitRule = /[а-яА-Яa-zA-Z0-9]/;
     if (submitRule.test(taskLabel)) {
-      onAdded(taskLabel, minLabel, secLabel);
+      const totalSec = Number(secLabel) + Number(minLabel) * 60;
+      onAdded(taskLabel, totalSec);
     }
     setTaskLabel('');
     setMinLabel('');

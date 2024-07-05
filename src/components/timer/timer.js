@@ -1,16 +1,15 @@
-/* eslint-disable no-console */
 import React, { useState, useEffect } from 'react';
 
 import IconPlay from './play.svg';
 import IconPause from './pause.svg';
 import './timer.css';
 
-const Timer = ({ minutes, seconds }) => {
-  const [min, setMin] = useState(Number(minutes));
-  const [sec, setSec] = useState(Number(seconds));
+const Timer = ({ seconds }) => {
+  const [min, setMin] = useState(Math.floor(seconds / 60));
+  const [sec, setSec] = useState(seconds - min * 60);
   const [toggle, setToggle] = useState(true);
   let trueSec;
-  console.log(min === 0 && sec === 0);
+
   useEffect(() => {
     if (toggle) {
       setTimeout(() => {

@@ -12,11 +12,10 @@ const App = () => {
   const [data, setData] = useState([]);
   const [taskCount, setTaskCount] = useState(0);
 
-  function createTodoTask(label, min, sec) {
+  function createTodoTask(label, totalSec) {
     return {
       description: label,
-      minutes: min,
-      seconds: sec,
+      seconds: totalSec,
       complete: false,
       edit: false,
       hide: false,
@@ -24,8 +23,8 @@ const App = () => {
     };
   }
 
-  function addTask(text, minutes, seconds) {
-    const newTask = createTodoTask(text, minutes, seconds);
+  function addTask(text, totalSec) {
+    const newTask = createTodoTask(text, totalSec);
     const todoDataChange = [...data, newTask];
     setData(todoDataChange);
   }
