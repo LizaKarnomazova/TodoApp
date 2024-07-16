@@ -5,7 +5,7 @@ import ContextData from '../context-task/context-task';
 import CreatedTime from '../created-time/created-time';
 import './task.css';
 
-const Task = ({ description, id, complete, edit, seconds, hide }) => {
+const Task = ({ description, id, complete, edit, seconds, hide, createdTime }) => {
   const taskFns = useContext(ContextData);
   const [label, setLabel] = useState(description);
   const currentLabel = useRef(description);
@@ -60,7 +60,7 @@ const Task = ({ description, id, complete, edit, seconds, hide }) => {
         <label className="description">
           <div className={complete ? 'description-label completed' : 'description-label'}>{label}</div>
           <Timer seconds={seconds} />
-          <CreatedTime />
+          <CreatedTime createdTime={createdTime} />
         </label>
         <button
           className="icon icon-edit"

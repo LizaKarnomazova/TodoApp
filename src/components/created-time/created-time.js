@@ -1,35 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './created-time.css';
 
-const CreatedTime = () => {
-  const [timeCount, setTimeCount] = useState(0);
-  const [timeLabel, setTimeLabel] = useState('seconds');
+const CreatedTime = ({ createdTime }) => {
+  const [seconds, setSeconds] = useState(0);
 
-  function updateTime(addedCount, unit, nextUnit, seconds) {
-    if (timeCount < 60 && timeLabel === unit) {
-      setTimeout(() => {
-        setTimeCount(timeCount + addedCount);
-      }, seconds * 1000);
-    } else if (timeCount === 60 && timeLabel === unit && timeLabel !== 'hours') {
-      setTimeCount(1);
-      setTimeLabel(nextUnit);
-    }
+  function time(delay) {
+    setTimeout(() => {
+      setSeconds(Math.floor((Date.now() - createdTime) / 1000));
+    }, 1000 * delay);
   }
 
   useEffect(() => {
-    updateTime(10, 'seconds', 'minutes', 10);
-    updateTime(1, 'minutes', 'hours', 60);
-    updateTime(1, 'hours', null, 360);
-    if (timeCount === 60 && timeLabel === 'hours') {
-      setTimeCount(null);
-      setTimeLabel('a long time');
+    if (seconds < 10) {
+      time(1);
     }
-  }, [timeCount]);
+    if (seconds >= 10 && seconds <= 50) {
+      time(10);
+    }
+    if (seconds >= 60) {
+      time(60);
+    }
+  }, [seconds]);
 
   return (
     <span className="created">
-      created {timeCount} {timeLabel} ago
+      created {seconds >= 60 ? seconds / 60 : seconds} {seconds < 60 ? 'seconds' : 'minutes'} ago
     </span>
   );
 };

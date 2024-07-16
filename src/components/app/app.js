@@ -16,6 +16,7 @@ const App = () => {
     return {
       description: label,
       seconds: totalSec,
+      createdTime: Date.now(),
       complete: false,
       edit: false,
       hide: false,
