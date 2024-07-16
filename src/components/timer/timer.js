@@ -10,7 +10,7 @@ const Timer = ({ seconds }) => {
   let trueSec;
 
   useEffect(() => {
-    if (toggle) {
+    if (toggle && sec > 0) {
       setTimeout(() => {
         if (trueSec === undefined) {
           setSec(sec - 1);
